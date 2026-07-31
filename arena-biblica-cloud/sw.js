@@ -1,6 +1,6 @@
-const CACHE = 'arena-biblica-v4-2-cloud-v1';
+const CACHE = 'arena-biblica-v4-3-visual-v1';
 const LOCAL = [
-  './','./index.html','./styles.css','./questions.js','./app-loader.js','./solo-mode.js',
+  './','./index.html','./styles.css','./questions.js','./app-loader.js','./solo-mode.js','./visual-effects.js',
   './app.part1.txt','./app.part2.txt','./app.part3.txt','./app.part4.txt',
   './manifest.webmanifest','./icons/icon.svg'
 ];
