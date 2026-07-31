@@ -1,7 +1,7 @@
 {
-  "name": "Arena Bíblica V4.1 Cloud",
+  "name": "Arena Bíblica V4.2 Cloud",
   "short_name": "Arena Bíblica",
-  "description": "Duelo bíblico online para dois celulares.",
+  "description": "Quiz bíblico individual e duelo online para celulares.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
