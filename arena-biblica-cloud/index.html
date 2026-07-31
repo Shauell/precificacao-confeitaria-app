@@ -3,22 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#100d08">
+  <meta name="theme-color" content="#0a0f28">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Arena Bíblica">
-  <meta name="description" content="Quiz bíblico individual e duelo online para celulares.">
-  <title>Arena Bíblica V4.2 Cloud</title>
+  <meta name="description" content="Arena Bíblica — quiz individual e duelo online com visual do Duelo da Fé.">
+  <title>Arena Bíblica V4.3 — O Duelo da Fé</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <div id="bgstars" aria-hidden="true"></div>
+  <div class="ray r1" aria-hidden="true"></div>
+  <div class="ray r2" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
   <div id="app" aria-live="polite"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./questions.js"></script>
   <script src="./app-loader.js"></script>
   <script src="./solo-mode.js"></script>
+  <script src="./visual-effects.js"></script>
 </body>
 </html>
