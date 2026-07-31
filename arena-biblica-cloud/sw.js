@@ -1,5 +1,9 @@
-const CACHE = 'arena-biblica-v4-1-cloud-v3';
-const LOCAL = ['./','./index.html','./styles.css','./questions.js','./app.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
+const CACHE = 'arena-biblica-v4-1-cloud-v4';
+const LOCAL = [
+  './','./index.html','./styles.css','./questions.js','./app-loader.js',
+  './app.part1.txt','./app.part2.txt','./app.part3.txt','./app.part4.txt',
+  './manifest.webmanifest','./icons/icon.svg'
+];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(LOCAL)).then(() => self.skipWaiting()));
 });
