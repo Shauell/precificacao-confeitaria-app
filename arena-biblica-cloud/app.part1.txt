@@ -1,0 +1,34 @@
+(() => {
+  'use strict';
+  const PREFIX='arena-biblica-cloud-';
+  const KEY='arenaBiblicaCloudProfile';
+  const Q=Array.isArray(window.ARENA_QUESTIONS)?window.ARENA_QUESTIONS:[];
+  const app=document.getElementById('app');
+  const toast=document.getElementById('toast');
+  const avatars=['🦁','🕊️','👑','⚔️','🔥','🌿','⭐','📖'];
+  const letters=['A','B','C','D'];
+  let role='',room='',peer=null,conn=null,game=null,ticker=null,advance=null,installPrompt=null,processed='';
+  let profile=loadProfile();
+
+  function loadProfile(){try{return Object.assign({name:'',avatar:'🦁',xp:0,wins:0,games:0,correct:0},JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(_){return{name:'',avatar:'🦁',xp:0,wins:0,games:0,correct:0}}}
+  function saveProfile(){localStorage.setItem(KEY,JSON.stringify(profile))}
+  function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+  function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+  function code(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';return Array.from({length:6},()=>a[Math.floor(Math.random()*a.length)]).join('')}
+  function opts(){return{debug:1,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun2.l.google.com:19302'}]}}}
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('show'),2300)}
+  function stopTimers(){clearInterval(ticker);clearTimeout(advance);ticker=null;advance=null}
+  function closeNet(){stopTimers();try{conn?.close()}catch(_){}try{peer?.destroy()}catch(_){}conn=peer=null}
+  function head(sub){return `<header class="brand"><div class="brand-mark">📖⚔️</div><h1>Arena Bíblica</h1><p>${esc(sub)}</p></header>`}
+  function profileBox(){const level=Math.floor(profile.xp/250)+1;return `<div class="card soft profile-summary"><div class="profile-avatar">${profile.avatar}</div><div class="profile-meta"><strong>${esc(profile.name||'Novo jogador')}</strong><span>Nível ${level}</span><div class="statline"><span class="pill">✨ ${profile.xp} XP</span><span class="pill">🏆 ${profile.wins} vitórias</span><span class="pill">🎮 ${profile.games} partidas</span></div></div></div>`}
+  function validName(){const n=(document.getElementById('name')?.value||profile.name).trim();if(n.length<2){say('Digite um nome com pelo menos 2 letras.');return false}profile.name=n.slice(0,24);saveProfile();return true}
+
+  function home(){closeNet();role=room='';game=null;const preset=new URLSearchParams(location.search).get('room')?.toUpperCase()||'';app.innerHTML=`<main class="shell">${head('Dois celulares, sem Termux e sem terceira tela')}${profileBox()}<section class="card"><label>Seu nome<input id="name" maxlength="24" autocomplete="nickname" placeholder="Ex.: Samuel" value="${esc(profile.name)}"></label><div class="avatar-row">${avatars.map(a=>`<button class="avatar ${a===profile.avatar?'selected':''}" data-av="${a}">${a}</button>`).join('')}</div><div class="actions"><button class="btn primary" id="create">⚔️ Criar partida</button><button class="btn secondary" id="join">🔗 Entrar em uma sala</button><button class="btn ghost" id="install">📲 Colocar na tela inicial</button></div></section><p class="footer-note">A conexão acontece diretamente entre os celulares. Internet é necessária; a mesma rede Wi‑Fi costuma ser mais estável.</p></main>`;
+    document.querySelectorAll('[data-av]').forEach(b=>b.onclick=()=>{profile.avatar=b.dataset.av;document.querySelectorAll('[data-av]').forEach(x=>x.classList.toggle('selected',x===b))});
+    document.getElementById('create').onclick=()=>{if(validName())config()};
+    document.getElementById('join').onclick=()=>{if(validName())joinScreen(preset)};
+    document.getElementById('install').onclick=installHelp;
+    if(preset&&profile.name)setTimeout(()=>joinScreen(preset),100);
+  }
+
+  function config(){const cats=[...new Set(Q.map(q=>q.c))].sort((a,b)=>a.localeCompare(b,'pt-BR'));app.innerHTML=`<main class="shell">${head('Configure o duelo e jogue no mesmo celular que criou a sala')}<section class="card"><div class="grid two"><label>Categoria<select id="cat"><option value="all">Todas</option>${cats.map(c=>`<option>${esc(c)}</option>`).join('')}</select></label><label>Dificuldade<select id="dif"><option value="all">Misturada</option><option value="facil">Fácil</option><option value="medio">Média</option><option value="dificil">Difícil</option></select></label><label>Perguntas<select id="count"><option>10</option><option selected>15</option><option>20</option></select></label><label>Tempo<select id="seconds"><option value="0">Sem limite</option><option value="15">15 segundos</option><option value="20" selected>20 segundos</option><option value="30">30 segundos</option></select></label><label>Modo<select id="mode"><option value="turns">Por turnos</option><option value="simultaneous">Os dois respondem</option></select></label><label>Resultado na tela<select id="del
