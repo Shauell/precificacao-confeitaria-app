@@ -1,12 +1,12 @@
 {
-  "name": "Arena Bíblica V4.2 Cloud",
+  "name": "Arena Bíblica V4.3 — O Duelo da Fé",
   "short_name": "Arena Bíblica",
-  "description": "Quiz bíblico individual e duelo online para celulares.",
+  "description": "Quiz bíblico individual e duelo online com a identidade visual O Duelo da Fé.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#100d08",
-  "theme_color": "#100d08",
+  "background_color": "#0a0f28",
+  "theme_color": "#0a0f28",
   "orientation": "portrait-primary",
   "icons": [
     {"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
